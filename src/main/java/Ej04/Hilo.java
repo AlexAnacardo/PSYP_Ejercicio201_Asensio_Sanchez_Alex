@@ -23,13 +23,10 @@ public class Hilo extends Thread{
 		try {
 			for(int i=0; i<=repeticiones; i++) {
 				if(this.getThreadGroup().activeCount()>2) {
-					System.out.println(nombre);
-					System.out.println(this.getThreadGroup().activeCount());
+					System.out.println("Soy: "+nombre);
 					sleep(random.nextInt(4000)+1);
 				}
 				else {
-					System.out.println(nombre);
-					System.out.println(this.getThreadGroup().activeCount());
 					System.out.println(nombre+": Soy el último superviviente");
 					sleep(random.nextInt(4000)+1);
 				}

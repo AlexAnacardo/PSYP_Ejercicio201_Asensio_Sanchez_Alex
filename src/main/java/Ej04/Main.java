@@ -16,6 +16,16 @@ public class Main {
 		for(Hilo h: hilos) {			
 			h.start();		
 		}
+		
+		for(Hilo h: hilos) {			
+			try {
+				h.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}	
+		}
+		
+		System.out.println("Programa finalizado");
 	}
 
 }
