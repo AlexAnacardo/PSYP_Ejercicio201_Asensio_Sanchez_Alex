@@ -61,6 +61,7 @@ public class Corredor extends Thread {
 
     private void imprimirPista() {
         for (int i = 0; i < pista.length; i++) {
+        	System.out.print("Calle "+(i+1)+": ");
             for (int j = 0; j < pista[i].length; j++) {
                 System.out.print(pista[i][j]);
             }
