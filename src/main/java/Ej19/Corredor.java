@@ -1,5 +1,7 @@
-package Ej16;
+package Ej19;
 
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Semaphore;
 
 public class Corredor extends Thread {
@@ -9,13 +11,15 @@ public class Corredor extends Thread {
     private char[][] pista;
     private Semaphore salida;
     private Long tiempoInicio;
+    int[] corredoresTerminados;
 
-    public Corredor(char[][] pista, int calle, Semaphore salida) {
+    public Corredor(char[][] pista, int calle, Semaphore salida, int[] corredoresTerminados) {
         this.pista = pista;
         this.calle = calle;
         this.salida = salida;
         this.velocidad = (int) (Math.random() * 1500) + 500;
         this.tiempoInicio = System.nanoTime();
+        this.corredoresTerminados = corredoresTerminados;
     }
 
     @Override
@@ -25,9 +29,11 @@ public class Corredor extends Thread {
             salida.acquire();
 
             for (int i = 0; i < 50; i++) {
-                Thread.sleep(velocidad);
+    
+            	
+                Thread.sleep(velocidad);                               
 
-                synchronized (pista) {
+                synchronized (pista) {                	
                     pista[calle][i] = 'O';
                     if(i>0) {
                     	pista[calle][i-1]='-';
@@ -35,11 +41,18 @@ public class Corredor extends Thread {
                     
                     imprimirPista();
                 }
-            }
+            }            
             
+            pista[calle][49] = '-';
+
             Long tiempoFin = System.nanoTime();
 			double tiempoEjecucion = (tiempoFin - tiempoInicio) / 1e9;
             System.out.println("Corredor " + (calle + 1) + " ha llegado a la meta en "+tiempoEjecucion+" segundos");
+            synchronized(corredoresTerminados) {
+            	corredoresTerminados[calle]++;
+            	System.out.println("Corredores de la calle "+(calle+1)+" que han llegado a la meta: "+corredoresTerminados[calle]);
+            }            
+            salida.release();
 
         } catch (InterruptedException e) {
             e.printStackTrace();

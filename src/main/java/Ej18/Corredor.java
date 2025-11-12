@@ -10,13 +10,14 @@ public class Corredor extends Thread {
     private int calle;
     private char[][] pista;
     private Semaphore salida;
-    
+    private Long tiempoInicio;
 
     public Corredor(char[][] pista, int calle, Semaphore salida) {
         this.pista = pista;
         this.calle = calle;
         this.salida = salida;
         this.velocidad = (int) (Math.random() * 1500) + 500;
+        this.tiempoInicio = System.nanoTime();
     }
 
     @Override
@@ -39,7 +40,9 @@ public class Corredor extends Thread {
                 }
             }
 
-            System.out.println("Corredor " + (calle + 1) + " ha llegado a la meta");
+            Long tiempoFin = System.nanoTime();
+			double tiempoEjecucion = (tiempoFin - tiempoInicio) / 1e9;
+            System.out.println("Corredor " + (calle + 1) + " ha llegado a la meta en "+tiempoEjecucion+" segundos");
             salida.release();
 
         } catch (InterruptedException e) {
