@@ -4,20 +4,15 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		Hilo hiloPing = new Hilo("PING");
-		Hilo hiloPong = new Hilo("PONG");
-
+		Object objetoControlador = new Object();
+		Turno turno = new Turno();
 		
-		hiloPing.setPareja(hiloPong);
-        hiloPong.setPareja(hiloPing);
-        
+		HiloPing hiloPing = new HiloPing(objetoControlador, turno);
+		HiloPong hiloPong = new HiloPong(objetoControlador, turno);
+
         
 		hiloPing.start();
 		hiloPong.start();
-		
-		synchronized (hiloPing) {
-            hiloPing.notify();
-        }
 	}
 
 }
